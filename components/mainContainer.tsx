@@ -23,18 +23,6 @@ const MainContainer = (props) => {
       .then(res => {
         console.log(res)
         updateData(res)
-        fetch('https://api.spotify.com/v1/me', {
-          method: 'GET',
-          headers: { 
-            'Content-type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': 'Bearer ' + props.access_token
-          }
-        })
-        .then(data => data.json())
-        .then(res => {
-          console.log(res)
-        })
       })
     }
 

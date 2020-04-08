@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, Button, View, Linking } from 'react-native';
-import authHandler from './authHandler.js'
+import spotifyOauth from '../config.js';
 
 const LoginComponent = (props) => {
   console.log("hit LoginComponent")
@@ -12,17 +12,13 @@ const LoginComponent = (props) => {
           onPress={() =>  {
             Linking.addEventListener('url', handleUrl)
             function handleUrl (event) {
-              let code = event.url;
-              code = code.replace('spotifyshare:/callback?code=', '')
-              const redirect_uri = 'spotifyShare:/callback'
-              const clientId = '81caa84bfac94356a16975578583e317'
-              const clientSecret = 'de80e6f33f23484bb6e01e7064ef1f3f'
+              let code = event.url.replace(`${spotifyOauth.redirect}?code=`, '')
               fetch('http://localhost:3000/auth/spotify', {
                 method: "POST",
                 headers: {
                   'Content-type': 'application/json'
                 },
-                body: JSON.stringify({ code, redirect_uri, clientId, clientSecret }),
+                body: JSON.stringify({ code, redirect_uri: spotifyOauth.redirect, clientId: spotifyOauth.clientId, clientSecret: spotifyOauth.secret }),
               })
               .then(results => results.json())
               .then(data => {
@@ -32,7 +28,8 @@ const LoginComponent = (props) => {
                 props.setLogin(true);
               })
             }
-            Linking.openURL('https://accounts.spotify.com/authorize?response_type=code&client_id=81caa84bfac94356a16975578583e317&scope=playlist-modify-private&redirect_uri=spotifyShare:/callback')
+            Linking.openURL(`https://accounts.spotify.com/authorize?response_type=code&client_id=${spotifyOauth.clientId}&scope=playlist-modify-private%20user-modify-playback-state&redirect_uri=${spotifyOauth.redirect}`)
+            Linking.removeEventListener('url', handleUrl)
           }}
           title="Click to Login"
           color='white'
