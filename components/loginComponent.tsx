@@ -2,34 +2,38 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, Button, View, Linking } from 'react-native';
 import spotifyOauth from '../config.js';
 
-const LoginComponent = (props) => {
+const LoginComponent = props => {
   console.log("hit LoginComponent")
+
+  const startSpotifyOauth = scopes => {             
+    Linking.addEventListener('url', handleUrl)
+    const handleUrl = event => {
+      let code = event.url.replace(`${spotifyOauth.redirect}?code=`, '')
+      fetch('http://localhost:3000/auth/spotify', {
+        method: "POST",
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify({ code, redirect_uri: spotifyOauth.redirect, clientId: spotifyOauth.clientId, clientSecret: spotifyOauth.secret }),
+      })
+      .then(results => results.json())
+      .then(data => {
+        console.log(data)
+        props.setTokenName(data.access_token)
+        props.setWifiName(data.wifiName)
+        props.setLogin(true);
+      })
+    }
+    Linking.openURL(`https://accounts.spotify.com/authorize?response_type=code&client_id=${spotifyOauth.clientId}&scope=playlist-modify-private%20user-modify-playback-state&redirect_uri=${spotifyOauth.redirect}`)
+    Linking.removeEventListener('url', handleUrl)
+  } 
 
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
         <Button
           onPress={() =>  {
-            Linking.addEventListener('url', handleUrl)
-            function handleUrl (event) {
-              let code = event.url.replace(`${spotifyOauth.redirect}?code=`, '')
-              fetch('http://localhost:3000/auth/spotify', {
-                method: "POST",
-                headers: {
-                  'Content-type': 'application/json'
-                },
-                body: JSON.stringify({ code, redirect_uri: spotifyOauth.redirect, clientId: spotifyOauth.clientId, clientSecret: spotifyOauth.secret }),
-              })
-              .then(results => results.json())
-              .then(data => {
-                console.log(data)
-                props.setTokenName(data.access_token)
-                props.setWifiName(data.wifiName)
-                props.setLogin(true);
-              })
-            }
-            Linking.openURL(`https://accounts.spotify.com/authorize?response_type=code&client_id=${spotifyOauth.clientId}&scope=playlist-modify-private%20user-modify-playback-state&redirect_uri=${spotifyOauth.redirect}`)
-            Linking.removeEventListener('url', handleUrl)
+            startSpotifyOauth(scopes)
           }}
           title="Click to Login"
           color='white'
