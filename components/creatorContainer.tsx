@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, Button, View } from 'react-native';
-import GreetingComponent from './greetingComponent.tsx';
+import LogoutComponent from './logoutComponent.tsx';
 
 const CreatorContainer = (props) => {
     const [playlistUri, setPlaylistUri] = useState('')
@@ -43,7 +43,6 @@ const CreatorContainer = (props) => {
         })
         .then(data2 => data2.json())
         .then(res2 => {
-          console.log(res2)
           setPlaylistUri(res2.uri)
           fetch(`http://localhost:3000/createPlaylist`, {
             method: 'POST',
@@ -58,7 +57,7 @@ const CreatorContainer = (props) => {
           })
           .then(data3 => data3.json())
           .then(results => {
-            console.log(results.results);
+            console.log('playlist created');
           })
         })
       })
@@ -71,16 +70,10 @@ const CreatorContainer = (props) => {
           <Text>{props.spotifyId ? props.spotifyId : ''}</Text>
         </View>
         <View style={styles.containerBottom}>
-            <View style={styles.buttonContainer}>
-                <Button
-                    onPress={() => {
-                        props.setWifiName('')
-                        props.setLogin(false)
-                    }}
-                    title="Click to Logout"
-                    color='rgb(255, 255, 255)'
-                />
-            </View>
+          <LogoutComponent 
+            setLogin={props.setLogin}
+            setPlaylistCreator={props.setPlaylistCreator}
+          />
         </View>
         </>
     )
@@ -88,13 +81,13 @@ const CreatorContainer = (props) => {
 
 const styles = StyleSheet.create({
   containerTop: {
-    flex: 3,
+    flex: 1,
     backgroundColor: 'rgb(140, 120, 110)',
     justifyContent: 'center',
     alignItems: 'center'
   },
   containerBottom: {
-    flex: 4,
+    flex: 1,
     paddingBottom: '5%',
     justifyContent: 'flex-end',
   },

@@ -3,7 +3,6 @@ import { StyleSheet, Text, Button, View } from 'react-native';
 
 
 const RoomNameComponent = (props) => {
-    console.log(props.name)
   return (
     <View>
         <Text>{props.name ? props.name.id : ''}</Text>

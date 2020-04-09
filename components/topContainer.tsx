@@ -26,6 +26,7 @@ const TopContainer = () => {
           roomName={roomName}
           spotifyId={spotifyId}
           setSpotifyId={setSpotifyId} 
+          setPlaylistCreator={setPlaylistCreator}
         />
       </View>)
       :
@@ -39,6 +40,7 @@ const TopContainer = () => {
           roomName={roomName}
           spotifyId={spotifyId}
           setSpotifyId={setSpotifyId} 
+          setPlaylistCreator={setPlaylistCreator}
         />
       </View>))
     : 

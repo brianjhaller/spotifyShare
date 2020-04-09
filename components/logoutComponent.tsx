@@ -6,7 +6,10 @@ const LogoutComponent = (props) => {
     <SafeAreaView style={styles.container}>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => props.setLogin(false)}
+        onPress={() => {
+          props.setLogin(false)
+          props.setPlaylistCreator(false)
+        }}
       >
         <Text style={styles.text}>Log out</Text>
       </TouchableOpacity>

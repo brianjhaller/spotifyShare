@@ -56,7 +56,7 @@ const LoginComponent = props => {
         onPress={() =>  {
           setCreateModalVisible(true);
         }}
-        style={{...styles.button, backgroundColor: 'rgb(80, 80, 80)'}}
+        style={{...styles.button, backgroundColor: 'rgb(50, 90, 110)'}}
       >
         <Text style={styles.buttonText}>Create a Playlist Room</Text>
       </TouchableOpacity>

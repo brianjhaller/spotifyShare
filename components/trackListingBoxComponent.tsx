@@ -11,9 +11,6 @@ const TrackListingBox = (props) => {
     setRefreshing(false);
   }, [refreshing]);
 
-
-  console.log("track listing box tracks", props.tracks)
-
   function Item(props) {
     return (
       <View style={styles.item}>
@@ -28,13 +25,18 @@ const TrackListingBox = (props) => {
     <SafeAreaView style={styles.container}>
       <Text style={styles.headerText}>Current Playlist</Text>
       <View style={styles.listContainer}>
-      <FlatList
-        data={props.tracks}
-        renderItem={({item}) => <Item track={item} />}
-        keyExtractor={item => "key" + item._id}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-      />
-    </View>
+        <FlatList
+          data={props.tracks}
+          renderItem={({item}) => <Item track={item} />}
+          keyExtractor={item => "key" + item._id}
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+          ListEmptyComponent={
+            <Text style={{...styles.listText, textAlign: 'center', color: 'rgb(100, 100, 100)', marginTop: '5%'}}>
+              No tracks added yet...
+            </Text>
+          }
+        />
+      </View>
     </SafeAreaView>
   )  
 }
@@ -85,6 +87,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-
 
 export default TrackListingBox;

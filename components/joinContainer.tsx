@@ -67,23 +67,24 @@ const JoinContainer = (props) => {
     .then(data => data.json())
     .then(res => {
       const trackObjArr = [];
-      res.items.forEach((item, idx) => {
-        trackObjArr.push({
-          _id: idx,
-          trackName: item.track.name,
-          trackArtist: item.track.artists[0].name,
-          addedBy: item.added_by.id,
-          trackId: item.track.id
+      console.log(res)
+      if (res.items.length) {
+        res.items.forEach((item, idx) => {
+          trackObjArr.push({
+            _id: idx,
+            trackName: item.track.name,
+            trackArtist: item.track.artists[0].name,
+            addedBy: item.added_by.id,
+            trackId: item.track.id
+          });
         });
-      });
+      }
       setTracks(trackObjArr);
     })
   }
 
   function searchSpotify() {
-    console.log("search params:", searchTrack, searchType)
     const searchParam = searchTrack.replace(/\s/g, '%20')
-    console.log(`https://api.spotify.com/v1/search?q=${searchParam}&type=${searchType.toLowerCase()}`)
     fetch(`https://api.spotify.com/v1/search?q=${searchParam}&type=${searchType.toLowerCase()}&limit=10`, {
       method: 'GET',
       headers: { 
@@ -132,7 +133,6 @@ const JoinContainer = (props) => {
   }
 
   function addToSpotifyPlaylist(trackUri) {
-    console.log("creds:", trackUri, playlistId)
     fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
       method: 'POST',
       headers: { 
@@ -176,6 +176,7 @@ const JoinContainer = (props) => {
           />
           <LogoutComponent 
             setLogin={props.setLogin}
+            setPlaylistCreator={props.setPlaylistCreator}
           />
         </>
         )
