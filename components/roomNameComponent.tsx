@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, Button, View } from 'react-native';
 
 
-const GreetingComponent = (props) => {
+const RoomNameComponent = (props) => {
     console.log(props.name)
   return (
     <View>
@@ -12,4 +12,4 @@ const GreetingComponent = (props) => {
   )
 }
 
-export default GreetingComponent
+export default RoomNameComponent;

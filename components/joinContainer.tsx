@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, Button, View } from 'react-native';
-import GreetingComponent from './greetingComponent.tsx';
+import { StyleSheet, Text, Button, View, ActivityIndicator } from 'react-native';
+import TrackListingBox from './trackListingBoxComponent.tsx';
+
 
 const JoinContainer = (props) => {
 
-  const [playlistUri, setPlaylistUri] = useState('')
+  const [playlistId, setPlaylistId] = useState('');
+  const [tracks, setTracks] = useState('');
 
   // run getSpotifyData on load
   useEffect(() => {
@@ -13,19 +15,19 @@ const JoinContainer = (props) => {
 
   function getSpotifyData() {
     // get information about the user who just signed in
-    if (playlistUri === '') {
+    if (playlistId === '') {
       fetch('https://api.spotify.com/v1/me', {
         method: 'GET',
         headers: { 
           'Content-type': 'application/json',
           'Accept': 'application/json',
-          'Authorization': 'Bearer ' + props.access_token
+          'Authorization': 'Bearer ' + props.access_token,
         }
       })
       .then(data1 => data1.json())
       .then(res1 => {
         // take their spotify id and save it
-        props.setSpotifyId(res1.id)
+        props.setSpotifyId(res1.id);
         // get the playlist uri by the name
         fetch('http://localhost:3000/getPlaylist', {
           method: 'POST',
@@ -33,44 +35,64 @@ const JoinContainer = (props) => {
             'Content-type': 'application/json',
           },
           body: JSON.stringify({
-            room: props.roomName
+            room: props.roomName,
           })
         })
         .then(data2 => data2.json())
         .then(res2 => {
-          let id = res2.playlist.playlist_id
-          setPlaylistUri(id)
-          getPlaylistTracks(id)
+          let id = res2.playlist.playlist_id;
+          setPlaylistId(id);
+          getPlaylistTracks(id);
         })
       });
     }
   }
 
   function getPlaylistTracks(playlistId) {
-    console.log('uri', playlistUri)
     fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
       method: 'GET',
       headers: { 
         'Content-type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': 'Bearer ' + props.access_token
+        'Authorization': 'Bearer ' + props.access_token,
       }
     })
     .then(data => data.json())
     .then(res => {
-      res.items.forEach(item => {
-        console.log(item.track.name, '\n', item.added_by.id, '\n', item.track.uri)
+      console.log("res", res.items[0].track.artists[0].name)
+      const trackObjArr = [];
+      res.items.forEach((item, idx) => {
+        const trackObj = {
+          _id: idx,
+          trackName: item.track.name,
+          trackArtist: item.track.artists[0].name,
+          addedBy: item.added_by.id,
+          trackId: item.track.id
+        };
+        trackObjArr.push(trackObj);
+      });
+      console.log("trackArr:", trackObjArr);
+      setTracks(trackObjArr);
 
-      })
     })
   }
 
   return (
-    <View>
-      <Text>Joined {props.roomName}!</Text>
-    </View>
+    <>
+      {tracks === '' ? 
+        (<View style={{height: '100%', justifyContent: 'center'}}>
+          <ActivityIndicator size='large' color='rgb(50, 90, 110)' />
+        </View>)
+        :
+        (<TrackListingBox 
+          tracks={tracks} 
+          roomName={props.roomName}
+          getPlaylistTracks={getPlaylistTracks}
+          playlistId={playlistId}
+        />)
+      }
+    </>
   )
-
 }
 
 export default JoinContainer;

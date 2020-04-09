@@ -5,17 +5,14 @@ import CreateRoomModal from './createRoomModal.tsx'
 import JoinRoomModal from './joinRoomModal.tsx'
 
 const LoginComponent = props => {
-  console.log("hit LoginComponent")
 
   const [createModalVisible, setCreateModalVisible] = useState(false);
   const [joinModalVisible, setJoinModalVisible] = useState(false);
 
-  const startSpotifyOauth = scopes => {   
-    console.log("hit, scopes", scopes)          
+  const startSpotifyOauth = scopes => {         
     Linking.addEventListener('url', handleUrl)
     function handleUrl (event) {
       let code = event.url.replace(`spotifyshare:/callback?code=`, '')
-      console.log("code:", code)
       fetch('http://localhost:3000/auth/spotify', {
         method: "POST",
         headers: {
@@ -25,10 +22,10 @@ const LoginComponent = props => {
       })
       .then(results => results.json())
       .then(data => {
-        console.log(data)
         props.setTokenName(data.access_token)
         props.setWifiName(data.wifiName)
         props.setLogin(true);
+        props.setAltText(props.roomName)
         Linking.removeEventListener('url', handleUrl)
       })
     }
@@ -37,8 +34,21 @@ const LoginComponent = props => {
 
   return (
     <View style={styles.container}>
-      <CreateRoomModal setCreateModalVisible={setCreateModalVisible} createModalVisible={createModalVisible} roomName={props.roomName} onChangeRoomName={props.onChangeRoomName} startSpotifyOauth={startSpotifyOauth} setLogin={props.setLogin} setPlaylistCreator={props.setPlaylistCreator}/>
-      <JoinRoomModal setJoinModalVisible={setJoinModalVisible} joinModalVisible={joinModalVisible} roomName={props.roomName} onChangeRoomName={props.onChangeRoomName} startSpotifyOauth={startSpotifyOauth} setLogin={props.setLogin}/>
+      <CreateRoomModal 
+        setCreateModalVisible={setCreateModalVisible} 
+        createModalVisible={createModalVisible} 
+        roomName={props.roomName} 
+        onChangeRoomName={props.onChangeRoomName} 
+        startSpotifyOauth={startSpotifyOauth} 
+        setLogin={props.setLogin} 
+        setPlaylistCreator={props.setPlaylistCreator}/>
+      <JoinRoomModal 
+        setJoinModalVisible={setJoinModalVisible} 
+        joinModalVisible={joinModalVisible} 
+        roomName={props.roomName} 
+        onChangeRoomName={props.onChangeRoomName} 
+        startSpotifyOauth={startSpotifyOauth} 
+        setLogin={props.setLogin}/>
       <View style={styles.instructionTextContainer}>
         <Text style={styles.instructionText}>Creating a room will create a new public playlist in your Spotify account. Set a room name and anyone with the room name can add their own tracks to your list!</Text>
       </View>

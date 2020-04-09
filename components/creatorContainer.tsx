@@ -3,7 +3,6 @@ import { StyleSheet, Text, Button, View } from 'react-native';
 import GreetingComponent from './greetingComponent.tsx';
 
 const CreatorContainer = (props) => {
-    console.log("hit MainContainer")
     const [playlistUri, setPlaylistUri] = useState('')
 
     useEffect(() => {
@@ -19,7 +18,6 @@ const CreatorContainer = (props) => {
     }, []);
 
     function getSpotifyData() {
-      console.log('hit getspotifydata')
       fetch('https://api.spotify.com/v1/me', {
         method: 'GET',
         headers: { 

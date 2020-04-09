@@ -12,6 +12,7 @@ const TopContainer = () => {
   const [tokenName, setTokenName] = useState('');
   const [roomName, onChangeRoomName] = useState('');
   const [spotifyId, setSpotifyId] = useState(undefined);
+  const [altText, setAltText] = useState('')
     
   return isLoggedIn ? 
     (isPlaylistCreator ?
@@ -29,7 +30,7 @@ const TopContainer = () => {
       </View>)
       :
       (<View style={styles.container} >
-        <HeaderComponent />
+        <HeaderComponent altText={altText} />
         <JoinContainer 
           setLogin={setLogin} 
           wifiName={wifiName} 
@@ -50,6 +51,7 @@ const TopContainer = () => {
         setPlaylistCreator={setPlaylistCreator} 
         roomName={roomName} 
         onChangeRoomName={onChangeRoomName}
+        setAltText={setAltText}
       />
     </View>
   )

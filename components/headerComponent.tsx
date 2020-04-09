@@ -3,19 +3,21 @@ import { StyleSheet, Text, Button, View } from 'react-native';
 
 
 const HeaderContainer = (props) => {
-    console.log("hit HeaderContainer")
+
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>Spotify Communal Playlist</Text>
+            <Text style={styles.text}>{props.altText ? "Room: " + props.altText : 'Spotify Communal Playlist'}</Text>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
   container: {
-    paddingBottom: '5%',
+    paddingBottom: '4%',
     backgroundColor: 'rgb(80, 100, 100)',
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'rgb(50, 70, 70)'
   },
   text: {
     marginTop: '15%',

@@ -4,7 +4,6 @@ import { StyleSheet, Text, TouchableOpacity, View, Linking, Modal, TextInput, Al
 export default JoinRoomModal = (props) => {
 
   const checkIfRoomExists = () => {
-    let data = undefined
     fetch('http://localhost:3000/verifyRoom', {
       method: 'POST',
       headers: {'Content-type': 'application/json'},
