@@ -13,7 +13,6 @@
     "base-64": "^0.1.0",
     "react": "16.11.0",
     "react-native": "0.62.1",
-    "react-native-app-auth": "^5.1.1",
     "request": "^2.88.2"
   },
   "devDependencies": {

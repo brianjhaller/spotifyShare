@@ -663,7 +663,6 @@
 				"HEADER_SEARCH_PATHS[arch=*]" = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",
-					"\"${PODS_ROOT}/Headers/Public/AppAuth\"",
 					"\"${PODS_ROOT}/Headers/Public/CocoaAsyncSocket\"",
 					"\"${PODS_ROOT}/Headers/Public/CocoaLibEvent\"",
 					"\"${PODS_ROOT}/Headers/Public/DoubleConversion\"",
