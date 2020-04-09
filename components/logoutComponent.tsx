@@ -8,7 +8,7 @@ const LogoutComponent = (props) => {
         style={styles.button}
         onPress={() => props.setLogin(false)}
       >
-        <Text>Log out</Text>
+        <Text style={styles.text}>Log out</Text>
       </TouchableOpacity>
     </SafeAreaView>
   )
@@ -37,6 +37,17 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     justifyContent: 'center',
+  },
+  text: {
+    color: 'rgb(200, 200, 200)',
+    fontSize: 16,
+    fontWeight: '500',
+    textShadowColor: 'rgba(0, 0, 0, 0.30)',
+    textShadowOffset: {
+      width: 1,
+      height: 2
+    },
+    textShadowRadius: 3.84,
   },
 });
 

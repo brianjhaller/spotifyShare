@@ -95,15 +95,39 @@ const JoinContainer = (props) => {
     .then(data => data.json())
     .then(results => {
       const searchResultsArr = []
-      results.tracks.items.forEach((item, idx) => {
-        searchResultsArr.push({
-          _id: idx,
-          trackName: item.name,
-          trackUri: item.uri,
-          trackArtist: item.artists[0].name,
+      if (searchType === 'Track') {
+        results.tracks.items.forEach((item, idx) => {
+          searchResultsArr.push({
+            _id: idx,
+            trackName: item.name,
+            trackUri: item.uri,
+            trackArtist: item.artists[0].name,
+          })
         })
-      })
-      setSearchResults(searchResultsArr)
+        setSearchResults(searchResultsArr)
+      }
+      else {
+        fetch(`https://api.spotify.com/v1/artists/${results.artists.items[0].id}/top-tracks?country=US`, {
+          method: 'GET',
+          headers: { 
+            'Content-type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + props.access_token,
+          }
+        })
+        .then(data2 => data2.json())
+        .then(results2 => {
+          results2.tracks.forEach((item, idx) => {
+            searchResultsArr.push({
+              _id: idx,
+              trackName: item.name,
+              trackUri: item.uri,
+              trackArtist: item.artists[0].name,
+            })
+          })
+          setSearchResults(searchResultsArr)
+        })
+      }
     })
   }
 

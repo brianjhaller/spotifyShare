@@ -30,7 +30,7 @@ const TrackSearchBox = (props) => {
         style={styles.buttonSubmit}
         onPress={props.searchSpotify}
       >
-        <Text style={styles.buttonText}>Search</Text>
+        <Text style={{...styles.buttonText, fontWeight: '800' }}>Search</Text>
       </TouchableOpacity>
     </SafeAreaView>
   )
