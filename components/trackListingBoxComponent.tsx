@@ -27,14 +27,14 @@ const TrackListingBox = (props) => {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.headerText}>Current Playlist</Text>
-        <View style={styles.listContainer}>
-        <FlatList
-          data={props.tracks}
-          renderItem={({item}) => <Item track={item} />}
-          keyExtractor={item => "key" + item._id}
-          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-        />
-      </View>
+      <View style={styles.listContainer}>
+      <FlatList
+        data={props.tracks}
+        renderItem={({item}) => <Item track={item} />}
+        keyExtractor={item => "key" + item._id}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+      />
+    </View>
     </SafeAreaView>
   )  
 }
@@ -42,10 +42,10 @@ const TrackListingBox = (props) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    flex: 1,
+    flex: 2,
   },
   listContainer: {
-    flex: 0.3,
+    flex: 1,
     borderWidth: 2,
     width: '95%',
     marginHorizontal: '2.5%',

@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     justifyContent: 'center',
   },
-    modalView: {
+  modalView: {
     display: 'flex',
     margin: 20,
     height: '55%',
