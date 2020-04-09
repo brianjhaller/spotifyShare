@@ -54,8 +54,9 @@ const JoinContainer = (props) => {
     }
   }
 
-  function getPlaylistTracks(playlistId) {
-    fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
+  function getPlaylistTracks(listId) {
+    listId = listId || playlistId
+    fetch(`https://api.spotify.com/v1/playlists/${listId}/tracks`, {
       method: 'GET',
       headers: { 
         'Content-type': 'application/json',
@@ -107,6 +108,7 @@ const JoinContainer = (props) => {
   }
 
   function addToSpotifyPlaylist(trackUri) {
+    console.log("creds:", trackUri, playlistId)
     fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
       method: 'POST',
       headers: { 
@@ -114,11 +116,10 @@ const JoinContainer = (props) => {
         'Accept': 'application/json',
         'Authorization': 'Bearer ' + props.access_token,
       },
-      body: JSON.stringify({uris: trackUri})
+      body: JSON.stringify({uris: [trackUri]})
     })
-    .then(data => data.json())
     .then(res => {
-      console.log("hit", res)
+      getPlaylistTracks();
     })
   }
 
@@ -147,6 +148,7 @@ const JoinContainer = (props) => {
           <SearchResultsBox
             searchResults={searchResults}
             addToSpotifyPlaylist={addToSpotifyPlaylist}
+            getPlaylistTracks={getPlaylistTracks}
           />
           <LogoutComponent 
             setLogin={props.setLogin}

@@ -16,7 +16,10 @@ export default AddTrackModal = (props) => {
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={{...styles.modalButton, backgroundColor: 'rgb(50, 90, 110)'}}
-              onPress={() => props.addToSpotifyPlaylist(props.trackToAdd.trackUri)}
+              onPress={() => {
+                props.addToSpotifyPlaylist(props.trackToAdd.trackUri);
+                props.setAddTrackModalVisible(false);
+              }}
             >
               <Text style={{ ...styles.modalButtonText, fontWeight: '800'}}>Add</Text>
             </TouchableOpacity>
